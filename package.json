@@ -1,0 +1,84 @@
+{
+  "name": "vite-electron",
+  "version": "0.0.1",
+  "main": "dist/main/build.js",
+  "author": "MangoTsing",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env IS_DEV=dev npm run dev:all",
+    "dev:all": "concurrently -n=vue,ele -c=green,blue \"npm run dev:vue\" \"npm run dev:ele\"",
+    "dev:vue": "vite",
+    "dev:ele": "node script/build --env=development --watch",
+    "build:vue": "vite build",
+    "build:ele": "node script/build --env=production",
+    "build": "cross-env IS_DEV=prod npm run build:vue && npm run build:ele && electron-builder"
+  },
+  "build": {
+    "appId": "xxx@gmail.com",
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "files": [
+      "!node_modules",
+      "dist/main/**",
+      "dist/render/**"
+    ],
+    "mac": {
+      "artifactName": "${productName}_setup_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_setup_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "dependencies": {
+    "electron-store": "^6.0.0",
+    "element-plus": "latest",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.0-beta.13"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.1",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@vitejs/plugin-vue": "^1.0.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "chalk": "^4.1.0",
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "electron": "^12.0.1",
+    "electron-builder": "^22.8.0",
+    "electron-connect": "^0.6.3",
+    "minimist": "^1.2.5",
+    "ora": "^5.0.0",
+    "rollup-plugin-esbuild": "^2.4.2",
+    "sass": "^1.26.10",
+    "typescript": "^3.9.7",
+    "vite": "^2.0.5",
+    "wait-on": "^5.2.1"
+  },
+  "keywords": [
+    "vite",
+    "electron",
+    "vue3",
+    "rollup"
+  ]
+}
